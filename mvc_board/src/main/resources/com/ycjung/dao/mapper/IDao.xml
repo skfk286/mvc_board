@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ycjung.dao.IDao">
+
+    <!-- 모든 LIST 검색 -->
+    <select id="listDao" resultType="com.ycjung.dto.ContentDto">
+        SELECT  *
+          FROM  mvc_board
+       ORDER BY bCd DESC      
+    </select>
+    
+    <insert id="writeDao">
+        INSERT 
+          INTO mvc_board (bCd, bTitle, bAuthor, bContent, bHits, bGroup, bStep, bIndent)
+        VALUES (mvc_board_seq.nextval, #{param1}, #{param2}, #{param3}, 0, mvc_board_seq.currval, 0, 0)
+    </insert>
+    
+    <select id="viewDao" resultType="com.ycjung.dto.ContentDto">
+        SELECT  *
+          FROM  mvc_board
+         WHERE  bCd=#{param1}
+    </select>
+    
+    <delete id="deleteDao">
+        DELETE
+          FROM mvc_board 
+         WHERE bCd=#{param1}
+    </delete>
+    
+    <insert id="dummyDataInsert">
+        INSERT 
+          INTO mvc_board (bCd, bTitle, bAuthor, bContent, bHits, bGroup, bStep, bIndent)
+        VALUES (mvc_board_seq.nextval, #{param1}, #{param2}, #{param3}, 0, mvc_board_seq.currval, 0, 0)
+    </insert>
+    
+    <delete id="deleteAll">
+        TRUNCATE
+           TABLE mvc_board
+    </delete>
+    
+    <update id="upHit">
+        UPDATE mvc_board
+           SET bHits = bHits+1
+         WHERE bCd=#{param1}
+    </update>
+    
+    <update id="modify">
+        UPDATE mvc_board 
+           SET bAuthor=#{param1}, bTitle=#{param2}, bContent=#{param3}, bDate=#{param4} 
+         WHERE bCd=#{param5}
+    </update>
+</mapper>
