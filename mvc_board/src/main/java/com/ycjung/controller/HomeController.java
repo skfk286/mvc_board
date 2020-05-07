@@ -15,8 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ycjung.dao.IDao;
-import com.ycjung.dto.ContentDto;
 import com.ycjung.paging.PagingVo;
+import com.ycjung.service.Command;
+import com.ycjung.service.ContentCommand;
+import com.ycjung.service.DeleteAllCommand;
+import com.ycjung.service.DeleteCommand;
+import com.ycjung.service.DummyCommand;
+import com.ycjung.service.ListCommand;
+import com.ycjung.service.ModifyCommand;
+import com.ycjung.service.WriteCommand;
 
 /**
  * Handles requests for the application home page.
@@ -31,16 +38,15 @@ public class HomeController {
 	
 	@Autowired
 	private PagingVo pv;
-	
+	   
     @RequestMapping(value = "/list")
     public String list(Model model) {
         //System.out.println( org.springframework.core.SpringVersion.getVersion() ); 
         System.out.println("list()");
         
-        IDao dao = sqlSession.getMapper(IDao.class);
-        model.addAttribute("list", dao.listDao());
+        Command command = new ListCommand();
+        command.execute(model, sqlSession, pv);
         
-        model.addAttribute("pv", pv);
         return "list";
     }
     
@@ -62,11 +68,9 @@ public class HomeController {
     public String write(HttpServletRequest request, Model model) {
         System.out.println("write()");
         
-        IDao dao = sqlSession.getMapper(IDao.class);
-        dao.writeDao(request.getParameter("bTitle"), request.getParameter("bAuthor"),
-                request.getParameter("bContent"));
-        
         model.addAttribute("request",request);
+        Command command = new WriteCommand();
+        command.execute(model, sqlSession, pv);
         
         return "redirect:list";
     }
@@ -75,25 +79,20 @@ public class HomeController {
     public String content_view(HttpServletRequest request, Model model) {
         System.out.println("content_view()");
         
-        IDao dao = sqlSession.getMapper(IDao.class);
-        int bCd = Integer.parseInt(request.getParameter("bCd"));
-        dao.upHit(bCd);
-        ContentDto dto = dao.viewDao(bCd);
-        model.addAttribute("dto", dto);
         model.addAttribute("request",request);
+        Command command = new ContentCommand();
+        command.execute(model, sqlSession, pv);
+        
         return "content_view";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/modify")
     public String modify(HttpServletRequest request, Model model) throws UnsupportedEncodingException {
         System.out.println("modify()");
-        request.setCharacterEncoding("utf-8");
-        
-        IDao dao = sqlSession.getMapper(IDao.class);
-        int bCd = Integer.parseInt(request.getParameter("bCd"));
-        dao.modify(request.getParameter("bAuthor"), request.getParameter("bTitle"), request.getParameter("bContent"), new Timestamp(System.currentTimeMillis()), bCd);
         
         model.addAttribute("request",request);
+        Command command = new ModifyCommand();
+        command.execute(model, sqlSession, pv);
         
         return "redirect:list";
     }
@@ -119,9 +118,10 @@ public class HomeController {
     @RequestMapping("/delete")
     public String delete(HttpServletRequest request, Model model) {
         System.out.println("delete()");
-        IDao dao = sqlSession.getMapper(IDao.class);
-        dao.deleteDao(request.getParameter("bCd"));
+        
         model.addAttribute("request",request);
+        Command command = new DeleteCommand();
+        command.execute(model, sqlSession, pv);
         
         return "redirect:list";
     }
@@ -130,9 +130,9 @@ public class HomeController {
     public String deleteAll(HttpServletRequest request, Model model) {
         System.out.println("allDelete()");
         
-        IDao dao = sqlSession.getMapper(IDao.class);
-        dao.deleteAll();
         model.addAttribute("request",request);
+        Command command = new DeleteAllCommand();
+        command.execute(model, sqlSession, pv);
         
         return "redirect:list";
     }
@@ -141,13 +141,9 @@ public class HomeController {
     public String dummy(HttpServletRequest request, Model model) {
         System.out.println("dummy()");
         
-        IDao dao = sqlSession.getMapper(IDao.class);
-        
-        for (int i = 0; i < 101; i++) {
-            dao.dummyDataInsert("임시제목"+i,"홍길동"+i,"임시줄거리"+i);
-        }
-        
         model.addAttribute("request",request);
+        Command command = new DummyCommand();
+        command.execute(model, sqlSession, pv);
         
         return "redirect:list";
     }
