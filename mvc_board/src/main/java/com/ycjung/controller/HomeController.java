@@ -1,7 +1,6 @@
 package com.ycjung.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.ycjung.dao.IDao;
 import com.ycjung.paging.PagingVo;
 import com.ycjung.service.Command;
 import com.ycjung.service.ContentCommand;
@@ -41,7 +39,6 @@ public class HomeController {
 	   
     @RequestMapping(value = "/list")
     public String list(Model model) {
-        //System.out.println( org.springframework.core.SpringVersion.getVersion() ); 
         System.out.println("list()");
         
         Command command = new ListCommand();
