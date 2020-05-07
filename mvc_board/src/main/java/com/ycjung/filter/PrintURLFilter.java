@@ -16,6 +16,7 @@ public class PrintURLFilter implements Filter{
     public void init(FilterConfig filterConfig) throws ServletException {
         // TODO Auto-generated method stub
         System.out.println("init()..");
+        System.out.println(org.springframework.core.SpringVersion.getVersion()); // 스프링 버전
     }
     
     @Override
