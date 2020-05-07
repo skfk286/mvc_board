@@ -10,7 +10,6 @@ public class PagingConfiguration {
     
     @Bean
     public PagingVo setPagingBean() {
-        
         return new PagingVo();
     }
 }

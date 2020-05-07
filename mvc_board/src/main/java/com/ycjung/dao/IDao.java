@@ -15,4 +15,5 @@ public interface IDao {
     public void deleteAll(); // 모두 삭제
     public void upHit(int bCd); // 조회수 증가
     public void modify(String bAuthor, String bTitle, String bContent, Timestamp bDate, int bCd);
+    public int selectCount();
 }

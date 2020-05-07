@@ -52,4 +52,9 @@
            SET bAuthor=#{param1}, bTitle=#{param2}, bContent=#{param3}, bDate=#{param4} 
          WHERE bCd=#{param5}
     </update>
+    
+    <select id="selectCount" resultType="int">
+        SELECT COUNT(*)
+          FROM mvc_board
+    </select>
 </mapper>

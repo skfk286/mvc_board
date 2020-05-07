@@ -4,16 +4,30 @@
 <%@ page import="com.ycjung.paging.*" %>
 <%@ page import="com.ycjung.dto.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="java.lang.*" %>
 
 <%
     PagingVo pv = (PagingVo)request.getAttribute("pv");
+	String requestCurrCheck = request.getParameter("currentPage");
+
 	int currentPage = pv.getCurrentPage();
-	int beginPage = pv.getBeginPage();
-	int endPage = pv.getEndPage();
-	if(beginPage == 0 && endPage == 0) {
-		beginPage = 1;
-		endPage = pv.getDisplayPage();
-    }
+	if(requestCurrCheck != null && !requestCurrCheck.isEmpty()){
+	    currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	int beginPage = 1;
+	int endPage = pv.getDisplayPage();
+	while(currentPage > endPage){
+	    endPage += pv.getDisplayPage();
+	    beginPage = endPage - (pv.getDisplayPage()-1);
+	}
+	
+	if(endPage > pv.getTotalPage()){
+	    if(pv.getTotalPage() == 0){
+	        endPage = 1;
+	    }else{
+	        endPage = pv.getTotalPage();
+	    }
+	}
     ArrayList<ContentDto> dtos = (ArrayList<ContentDto>)request.getAttribute("list");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -53,16 +67,12 @@
 		<tbody>
 			<tr>
 				<%
-					int viewPageSize = 0;
-					if(dtos.size() < pv.getDisplayRow()){
+					int j = (currentPage - 1) * pv.getDisplayRow();
+					int viewPageSize = j + pv.getDisplayRow();
+					if(viewPageSize > dtos.size()){
 					    viewPageSize = dtos.size();
 					}
-					else{
-					    viewPageSize = pv.getDisplayRow();
-					}
 					
-					int j = currentPage * viewPageSize;
-					viewPageSize += j;
 					for(;j<viewPageSize;j++){ // 한 페이지에 보여줄 만큼 j 증가.
 					  %><tr>
 					  	<td><%=dtos.get(j).getbCd() %></td>
@@ -95,12 +105,22 @@
 
 		</tbody>
 	</table>
-			<div style="width:100%; text-align: center; margin-top: 25px">
+			<div style="width:100%; text-align: center; margin-top: 50px">
 					<%
+						if(beginPage > pv.getDisplayPage()){
+						    %>
+						    <a href="list?currentPage=<%=beginPage-1 %>"><td>《 이전</td></a>
+						    <%
+						}
 						for(int i=beginPage;i<=endPage;i++){
 						    %>
-						    	<U><a href="list?b"><td><%=i %></td></a></U>
+						    	<U><a href="list?currentPage=<%=i %>"><td><%=i %></td></a></U>
 						    <% 
+						}
+						if(pv.getTotalPage() > endPage){
+						    %>
+						    <a href="list?currentPage=<%=endPage+1 %>"><td>다음 》</td></a>
+						    <%
 						}
 					%>
 			</div>

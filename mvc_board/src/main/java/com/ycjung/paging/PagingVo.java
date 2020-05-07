@@ -12,6 +12,10 @@ public class PagingVo {
 	private int beginPage; // 페이징 시작 페이지 수
 	private int endPage; // 페이징 종료 페이지 수
 
+	public PagingVo() {
+	    this.currentPage = 1;
+    }
+	
 	public int getTotalCount() {
 		return totalCount;
 	}

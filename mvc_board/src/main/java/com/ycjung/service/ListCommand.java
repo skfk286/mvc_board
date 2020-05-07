@@ -1,9 +1,5 @@
 package com.ycjung.service;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.ui.Model;
 
@@ -14,12 +10,17 @@ public class ListCommand implements Command {
 
     @Override
     public void execute(Model model, SqlSession sqlSession, PagingVo pv) {
-        Map<String, Object> map = model.asMap();
-        HttpServletRequest request = (HttpServletRequest)map.get("request");
         
         IDao dao = sqlSession.getMapper(IDao.class);
         model.addAttribute("list", dao.listDao());
+        int rowCnt = dao.selectCount();
         
+        pv.setTotalCount(rowCnt); // 전체 게시글 수
+        float a = (float)pv.getDisplayRow();
+        float b = (float)rowCnt / a;
+        
+        int resultPage = (int) Math.ceil(b);
+        pv.setTotalPage(resultPage); // 전체 페이지 수
         model.addAttribute("pv", pv);
     }
 }
