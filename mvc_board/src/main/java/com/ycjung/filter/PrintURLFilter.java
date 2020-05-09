@@ -10,6 +10,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.ycjung.config.PagingConfiguration;
+
 public class PrintURLFilter implements Filter{
     
     @Override
@@ -17,6 +21,10 @@ public class PrintURLFilter implements Filter{
         // TODO Auto-generated method stub
         System.out.println("init()..");
         System.out.println("Spring Version: "+org.springframework.core.SpringVersion.getVersion()); // 스프링 버전
+        
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+        ctx.register(PagingConfiguration.class);
+        ctx.refresh();
     }
     
     @Override

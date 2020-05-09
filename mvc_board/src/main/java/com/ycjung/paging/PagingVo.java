@@ -1,7 +1,5 @@
 package com.ycjung.paging;
 
-import org.springframework.stereotype.Component;
-
 public class PagingVo {
 	// paging
 	private int totalCount; // 전체 게시글 수 (get)

@@ -9,7 +9,8 @@ import com.ycjung.paging.PagingVo;
 public class PagingConfiguration {
     
     @Bean
-    public PagingVo setPagingBean() {
+    public PagingVo pagingVo() {
         return new PagingVo();
     }
+
 }
