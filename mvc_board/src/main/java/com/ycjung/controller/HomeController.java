@@ -38,6 +38,11 @@ public class HomeController {
 	
 	@Autowired
 	private PagingVo pv;
+	
+	@RequestMapping(value = "/")
+	public String home() {
+	    return "redirect:list";
+	}
 	   
     @RequestMapping(value = "/list")
     public String list(Model model) {
