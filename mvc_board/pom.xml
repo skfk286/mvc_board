@@ -36,8 +36,8 @@
         <!-- oracle driver -->
         <dependency>
             <groupId>oracle</groupId>
-            <artifactId>ojdbc10</artifactId>
-            <version>19.3.0.0.0</version>
+            <artifactId>ojdbc8</artifactId>
+            <version>8</version>
         </dependency>
         
 		<!-- Spring -->
