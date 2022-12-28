@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{HH:mm:ss.SSS} [%5.5p][%-6.6t] %-40.40logger{40}[%3L]: %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.zaxxer.hikari" level="INFO" />
+    <logger name="org.springframework.jndi" level="ERROR" />
+    <logger name="org.springframework.jdbc" level="ERROR" />
+    <logger name="org.springframework" level="INFO" />
+
+    <logger name="org.mybatis.spring.transaction.SpringManagedTransaction" level="INFO" />
+
+    <logger name="framexpert" level="DEBUG" />
+    <logger name="framexpert.web.servlet" level="TRACE" />
+    <!-- <logger name="framexpert.cache.CacheManager" level="TRACE" /> -->
+    <logger name="framexpert.config.aop.AOPAspect" level="TRACE" />
+    <logger name="framexpert.core.ServiceInterceptor" level="TRACE" />
+    <logger name="framexpert.provider.ServiceContextProvider" level="TRACE" />
+    <logger name="framexpert.web.controller.ErrorController" level="TRACE" />
+
+	<logger name="jdbc.sqltiming" level="INFO" />
+	<logger name="org.egovframe" level="DEBUG" />
+	<logger name="egovframework" level="DEBUG" />
+	<logger name="java.sql" level="INFO" />
+	<logger name="org.apache" level="INFO" />"
+	
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
